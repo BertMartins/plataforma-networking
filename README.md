@@ -24,6 +24,7 @@ O foco principal deste MVP é o **fluxo de admissão de novos membros**, desde o
 ---
 
 ## 📁 Estrutura do Projeto
+```bash
 web/
 ├─ prisma/ # schema.prisma + banco SQLite
 ├─ src/
@@ -36,7 +37,7 @@ web/
 │ └─ components/ # (próximos passos)
 ├─ ARQUITETURA.md # Documento técnico de arquitetura
 └─ README.md # Este arquivo
-
+```
 ---
 
 ## ⚙️ Como Rodar o Projeto Localmente
@@ -45,15 +46,24 @@ web/
 ```bash
 git clone https://github.com/seu-usuario/plataforma-networking.git
 cd plataforma-networking/web
+```
 
 ### 2️⃣ Instalar dependências
+```bash
 npm install
+```
 
 ### 3️⃣ Configurar o banco de dados
+```bash
 npx prisma migrate dev
+```
 
 ### 4️⃣ Rodar o ambiente de desenvolvimento
+```bash
 npm run dev
+```
 
 ### 5️⃣ Acessar no navegador
+```bash
 http://localhost:3000
+```
