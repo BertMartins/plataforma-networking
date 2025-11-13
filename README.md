@@ -47,17 +47,13 @@ git clone https://github.com/seu-usuario/plataforma-networking.git
 cd plataforma-networking/web
 
 ### 2️⃣ Instalar dependências
-```bash
 npm install
 
 ### 3️⃣ Configurar o banco de dados
-```bash
 npx prisma migrate dev
 
 ### 4️⃣ Rodar o ambiente de desenvolvimento
-```bash
 npm run dev
 
 ### 5️⃣ Acessar no navegador
-```bash
 http://localhost:3000
