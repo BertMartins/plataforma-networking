@@ -155,16 +155,6 @@ npm run dev
 ```bash
 http://localhost:3000/login
 ```
----
-
-# 🔑 Variáveis de Ambiente (.env)
-
-Crie um arquivo `.env`:
-```bash
-DATABASE_URL="postgresql://neondb_owner:npg_fA9mFkhQ2wSR@ep-plain-tooth-acwyv7gr-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
-JWT_SECRET="sua-chave-secreta-aqui"
-```
-
 
 ---
 
