@@ -7,26 +7,49 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+//
+// 🔹 1. Usuários (autenticação + roles)
+//
+model Usuario {
+  id       String   @id @default(uuid())
+  nome     String
+  email    String   @unique
+  senha    String
+  role     String   @default("membro") // membro | admin
+
+  // Relacionamentos
+  membro   Membro?
+  avisos   Aviso[]
+}
+
+//
+// 🔹 2. Intenções de participação
+//
 model Intencao {
-  id           String   @id @default(uuid())
-  nome         String
-  email        String
-  empresa      String?
-  cargo        String?
-  status       String   @default("pendente") // pendente | aprovada | recusada
-  criadoEm     DateTime
-  convite      Convite?
+  id       String   @id @default(uuid())
+  nome     String
+  email    String   @unique
+  empresa  String?
+  cargo    String?
+  status   String   @default("pendente")
+  criadoEm DateTime @default(now())
+
+  convite  Convite?
 }
 
 model Convite {
   id         String   @id @default(uuid())
   token      String   @unique
   intencaoId String   @unique
-  criadoEm   DateTime
+  criadoEm   DateTime @default(now())
   usado      Boolean  @default(false)
-  intencao   Intencao @relation(fields: [intencaoId], references: [id])
+
+  intencao Intencao @relation(fields: [intencaoId], references: [id])
 }
 
+//
+// 🔹 3. Membros
+//
 model Membro {
   id           String   @id @default(uuid())
   nome         String
@@ -35,4 +58,128 @@ model Membro {
   cargo        String?
   dataCadastro DateTime
   ativo        Boolean  @default(true)
+
+  usuarioId    String?   @unique
+  usuario      Usuario?  @relation(fields: [usuarioId], references: [id])
+
+  presencas             Presenca[]
+  indicacoesFeitas      Indicacao[]   @relation("IndicacoesFeitas")
+  indicacoesRecebidas   Indicacao[]   @relation("IndicacoesRecebidas")
+  obrigados             Obrigado[]
+  reunioes1a1_enviadas  Reuniao1a1[]  @relation("ReunioesEnviadas")
+  reunioes1a1_recebidas Reuniao1a1[]  @relation("ReunioesRecebidas")
+  mensalidades          Mensalidade[]
 }
+
+//
+// 🔹 4. Presenças
+//
+model Presenca {
+  id       String   @id @default(uuid())
+  membroId String
+  data     DateTime @default(now())
+  status   String   @default("presente")
+
+  membro   Membro   @relation(fields: [membroId], references: [id])
+
+  @@index([membroId])
+}
+
+//
+// 🔹 5. Avisos
+//
+model Aviso {
+  id          String   @id @default(uuid())
+  titulo      String
+  mensagem    String
+  criadoEm    DateTime @default(now())
+
+  criadoPorId String
+  criadoPor   Usuario @relation(fields: [criadoPorId], references: [id])
+
+  @@index([criadoPorId])
+}
+
+//
+// 🔹 6. Indicações
+//
+model Indicacao {
+  id String @id @default(uuid())
+
+  deMembroId   String
+  paraMembroId String
+
+  descricao String
+  status    String   @default("pendente")
+  criadoEm  DateTime @default(now())
+
+  deMembro   Membro @relation("IndicacoesFeitas", fields: [deMembroId], references: [id])
+  paraMembro Membro @relation("IndicacoesRecebidas", fields: [paraMembroId], references: [id])
+
+  @@index([deMembroId])
+  @@index([paraMembroId])
+}
+
+//
+// 🔹 7. Obrigados
+//
+model Obrigado {
+  id       String   @id @default(uuid())
+  membroId String
+  mensagem String
+  criadoEm DateTime @default(now())
+
+  membro Membro @relation(fields: [membroId], references: [id])
+
+  @@index([membroId])
+}
+
+//
+// 🔹 8. Reuniões 1 a 1
+//
+model Reuniao1a1 {
+  id          String   @id @default(uuid())
+  deId        String
+  paraId      String
+  data        DateTime
+  observacoes String?
+
+  de   Membro @relation("ReunioesEnviadas", fields: [deId], references: [id])
+  para Membro @relation("ReunioesRecebidas", fields: [paraId], references: [id])
+
+  @@index([deId])
+  @@index([paraId])
+}
+
+//
+// 🔹 9. Mensalidades
+//
+model Mensalidade {
+  id         String    @id @default(uuid())
+  membroId   String
+  mes        Int
+  ano        Int
+  valor      Float
+  status     String    @default("pendente")
+  vencimento DateTime
+  pagoEm     DateTime?
+
+  membro Membro @relation(fields: [membroId], references: [id])
+
+  @@unique([membroId, mes, ano])
+  @@index([membroId])
+}
+
+//
+// 🔹 10. Financeiro
+//
+
+model Financeiro {
+  id        String   @id @default(uuid())
+  tipo      String
+  descricao String
+  valor     Float
+  data      DateTime
+  criadoEm  DateTime @default(now())
+}
+

@@ -1,71 +1,45 @@
-import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-import { getDateTimeBrasil } from "@/utils/dateUtils";
+import prisma from "@/lib/prisma";
 
-const prisma = new PrismaClient();
-
-// PUT /api/intencoes/[id] -> atualiza uma intenção
-export async function PUT(
-  request: Request,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function GET(req: Request, context: any) {
   try {
     const { id } = await context.params;
-    const data = await request.json();
-    const { nome, email, empresa, cargo, status } = data;
-
-    const intencaoAtualizada = await prisma.intencao.update({
-      where: { id },
-      data: {
-        nome,
-        email,
-        empresa,
-        cargo,
-        status,
-      },
-    });
-
-    return NextResponse.json(intencaoAtualizada);
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { erro: "Erro ao atualizar intenção" },
-      { status: 500 }
-    );
+    const item = await prisma.intencao.findUnique({ where: { id }, include: { convite: true } });
+    return new Response(JSON.stringify(item), { status: 200 });
+  } catch (e: any) {
+    return new Response(JSON.stringify({ erro: e.message }), { status: 500 });
   }
 }
 
-// DELETE /api/intencoes/[id] -> exclui uma intenção
-export async function DELETE(
-  request: Request,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function PUT(req: Request, context: any) {
   try {
     const { id } = await context.params;
-    const intencao = await prisma.intencao.findUnique({
+    const data = await req.json();
+
+    // Somente campos permitidos
+    const payload: any = {};
+    if (data.nome !== undefined) payload.nome = data.nome;
+    if (data.email !== undefined) payload.email = data.email;
+    if (data.empresa !== undefined) payload.empresa = data.empresa;
+    if (data.cargo !== undefined) payload.cargo = data.cargo;
+    if (data.status !== undefined) payload.status = data.status;
+
+    const atualizado = await prisma.intencao.update({
       where: { id },
+      data: payload,
     });
 
-    if (!intencao) {
-      return NextResponse.json(
-        { erro: "Intenção não encontrada" },
-        { status: 404 }
-      );
-    }
+    return new Response(JSON.stringify(atualizado), { status: 200 });
+  } catch (e: any) {
+    return new Response(JSON.stringify({ erro: e.message }), { status: 500 });
+  }
+}
 
-    await prisma.intencao.delete({
-      where: { id },
-    });
-
-    return NextResponse.json(
-      { mensagem: "Intenção removida com sucesso" },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { erro: "Erro ao excluir intenção" },
-      { status: 500 }
-    );
+export async function DELETE(req: Request, context: any) {
+  try {
+    const { id } = await context.params;
+    await prisma.intencao.delete({ where: { id } });
+    return new Response(null, { status: 204 });
+  } catch (e: any) {
+    return new Response(JSON.stringify({ erro: e.message }), { status: 500 });
   }
 }
