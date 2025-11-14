@@ -158,6 +158,14 @@ http://localhost:3000/login
 
 ---
 
+###  Usuário para teste
+```bash
+Usuário: heberte@teste.com
+Senha: 123456
+```
+
+---
+
 # 🧨 Pontos Fortes do Projeto
 - Código padronizado por módulo
 - UI moderna e consistente
@@ -175,5 +183,6 @@ http://localhost:3000/login
 - RBAC completo  
 - Notificações internas  
 - Webhooks para automações externas  
+- Melhoria de criaçao de senha para usuários
 
 ---
