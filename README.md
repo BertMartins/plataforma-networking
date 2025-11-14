@@ -22,7 +22,7 @@ Este projeto simula uma plataforma completa de gestão de grupos de networking �
 - Regras de negócio por módulo
 
 ## Banco de Dados
-- SQLite para desenvolvimento
+- postgresql para desenvolvimento
 - Prisma Client para queries tipadas
 
 ---
@@ -101,7 +101,7 @@ Este projeto simula uma plataforma completa de gestão de grupos de networking �
 web/
 ├── prisma/
 │   ├── schema.prisma        # Tabelas e relacionamentos
-│   └── dev.db               # Banco SQLite
+│   └── dev.db               # Banco postgresql
 │
 ├── src/app/
 │   ├── api/                 # Rotas REST (cada módulo tem CRUD completo)
