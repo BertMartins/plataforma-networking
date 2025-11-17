@@ -132,7 +132,7 @@ web/
 
 ### 1️⃣ Clonar o repositório
 ```bash
-git clone https://github.com/seu-usuario/plataforma-networking.git
+https://github.com/BertMartins/plataforma-networking.git
 cd plataforma-networking/web
 ```
 
@@ -169,9 +169,7 @@ Senha: 123456
 # 🧨 Pontos Fortes do Projeto
 - Código padronizado por módulo
 - UI moderna e consistente
-- Prisma com logs SQL
 - Layout protegido por autenticação
-- Tabelas responsivas
 - CRUD completo em absolutamente todos os módulos
 - Dashboard com gráficos reais
 
@@ -180,7 +178,6 @@ Senha: 123456
 # 🎯 Próximos Passos
 - Exportação CSV/Excel  
 - Dashboard mais avançado  
-- RBAC completo  
 - Notificações internas  
 - Webhooks para automações externas  
 - Melhoria de criaçao de senha para usuários
