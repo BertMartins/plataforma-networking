@@ -214,26 +214,6 @@ Mantém contexto sempre visível.
 Tabelas, badges, botões, inputs, dropdowns seguem estilo único.
 
 
-# 🧪 Testabilidade
-
-Mesmo sem testes implementados, a estrutura facilita testes:
-
-- APIs independentes → testes unitários fáceis com Jest  
-- Prisma → fácil de mockar  
-- Componentes React simples → teste com RTL  
-- Fluxos previsíveis → testes E2E futuros  
-
-
-# 🚀 Possíveis Evoluções Futuras
-
-- Exportação CSV/Excel para todos os módulos  
-- Dashboard avançado com filtros  
-- Sistema de permissões avançado (RBAC)  
-- Notificações internas  
-- Webhooks de integração  
-- Módulo de relatórios  
-
-
 # 📞 Manutenção e Suporte
 
 O projeto foi organizado para permitir:
